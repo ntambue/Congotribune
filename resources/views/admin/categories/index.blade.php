@@ -3,7 +3,7 @@
 @can('category_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.categories.create") }}">
+            <a class="btn btn-success" href="{{ route('admin.categories.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.category.title_singular') }}
             </a>
         </div>
@@ -29,11 +29,26 @@
                             {{ trans('cruds.category.fields.name') }}
                         </th>
                         <th>
-                            {{ trans('cruds.category.fields.slug') }}
+                            {{ trans('cruds.category.fields.status') }}
                         </th>
                         <th>
                             &nbsp;
                         </th>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                        </td>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,7 +64,7 @@
                                 {{ $category->name ?? '' }}
                             </td>
                             <td>
-                                {{ $category->slug ?? '' }}
+                                {{ $category->status ?? '' }}
                             </td>
                             <td>
                                 @can('category_show')
@@ -121,14 +136,23 @@
 @endcan
 
   $.extend(true, $.fn.dataTable.defaults, {
+    orderCellsTop: true,
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  $('.datatable-Category:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
-        $($.fn.dataTable.tables(true)).DataTable()
-            .columns.adjust();
-    });
+  let table = $('.datatable-Category:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+      $($.fn.dataTable.tables(true)).DataTable()
+          .columns.adjust();
+  });
+  $('.datatable thead').on('input', '.search', function () {
+      let strict = $(this).attr('strict') || false
+      let value = strict && this.value ? "^" + this.value + "$" : this.value
+      table
+        .column($(this).parent().index())
+        .search(value, strict)
+        .draw()
+  });
 })
 
 </script>

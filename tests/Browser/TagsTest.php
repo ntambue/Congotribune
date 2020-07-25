@@ -16,6 +16,5 @@ class TagsTest extends DuskTestCase
             $browser->visit(route('admin.tags.index'));
             $browser->assertRouteIs('admin.tags.index');
         });
-
     }
 }

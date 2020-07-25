@@ -20,7 +20,6 @@ class AuthGates
                 foreach ($role->permissions as $permissions) {
                     $permissionsArray[$permissions->title][] = $role->id;
                 }
-
             }
 
             foreach ($permissionsArray as $title => $roles) {
@@ -28,11 +27,8 @@ class AuthGates
                     return count(array_intersect($user->roles->pluck('id')->toArray(), $roles)) > 0;
                 });
             }
-
         }
 
         return $next($request);
-
     }
-
 }

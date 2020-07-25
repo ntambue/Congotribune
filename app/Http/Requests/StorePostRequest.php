@@ -14,27 +14,34 @@ class StorePostRequest extends FormRequest
         abort_if(Gate::denies('post_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
-
     }
 
     public function rules()
     {
         return [
-            'title'         => [
-                'required'],
-            'categories_id' => [
+            'title'             => [
                 'required',
-                'integer'],
-            'content'       => [
-                'required'],
-            'tags.*'        => [
-                'integer'],
-            'tags'          => [
-                'array'],
-            'author_id'     => [
+            ],
+            'short_description' => [
                 'required',
-                'integer'],
+            ],
+            'slug'              => [
+                'required',
+                'unique:posts',
+            ],
+            'category_id'       => [
+                'required',
+                'integer',
+            ],
+            'content'           => [
+                'required',
+            ],
+            'tags.*'            => [
+                'integer',
+            ],
+            'tags'              => [
+                'array',
+            ],
         ];
-
     }
 }

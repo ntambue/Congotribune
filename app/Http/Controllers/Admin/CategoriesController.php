@@ -34,7 +34,6 @@ class CategoriesController extends Controller
         $category = Category::create($request->all());
 
         return redirect()->route('admin.categories.index');
-
     }
 
     public function edit(Category $category)
@@ -49,14 +48,13 @@ class CategoriesController extends Controller
         $category->update($request->all());
 
         return redirect()->route('admin.categories.index');
-
     }
 
     public function show(Category $category)
     {
         abort_if(Gate::denies('category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $category->load('categoriesPosts');
+        $category->load('categoryPosts');
 
         return view('admin.categories.show', compact('category'));
     }
@@ -68,7 +66,6 @@ class CategoriesController extends Controller
         $category->delete();
 
         return back();
-
     }
 
     public function massDestroy(MassDestroyCategoryRequest $request)
@@ -76,6 +73,5 @@ class CategoriesController extends Controller
         Category::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
 }

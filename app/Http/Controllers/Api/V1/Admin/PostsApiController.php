@@ -20,8 +20,7 @@ class PostsApiController extends Controller
     {
         abort_if(Gate::denies('post_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new PostResource(Post::with(['categories', 'tags', 'author'])->get());
-
+        return new PostResource(Post::with(['category', 'tags', 'created_by'])->get());
     }
 
     public function store(StorePostRequest $request)
@@ -29,22 +28,20 @@ class PostsApiController extends Controller
         $post = Post::create($request->all());
         $post->tags()->sync($request->input('tags', []));
 
-        if ($request->input('image', false)) {
-            $post->addMedia(storage_path('tmp/uploads/' . $request->input('image')))->toMediaCollection('image');
+        if ($request->input('main_image', false)) {
+            $post->addMedia(storage_path('tmp/uploads/' . $request->input('main_image')))->toMediaCollection('main_image');
         }
 
         return (new PostResource($post))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
-
     }
 
     public function show(Post $post)
     {
         abort_if(Gate::denies('post_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new PostResource($post->load(['categories', 'tags', 'author']));
-
+        return new PostResource($post->load(['category', 'tags', 'created_by']));
     }
 
     public function update(UpdatePostRequest $request, Post $post)
@@ -52,19 +49,17 @@ class PostsApiController extends Controller
         $post->update($request->all());
         $post->tags()->sync($request->input('tags', []));
 
-        if ($request->input('image', false)) {
-            if (!$post->image || $request->input('image') !== $post->image->file_name) {
-                $post->addMedia(storage_path('tmp/uploads/' . $request->input('image')))->toMediaCollection('image');
+        if ($request->input('main_image', false)) {
+            if (!$post->main_image || $request->input('main_image') !== $post->main_image->file_name) {
+                $post->addMedia(storage_path('tmp/uploads/' . $request->input('main_image')))->toMediaCollection('main_image');
             }
-
-        } elseif ($post->image) {
-            $post->image->delete();
+        } elseif ($post->main_image) {
+            $post->main_image->delete();
         }
 
         return (new PostResource($post))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
-
     }
 
     public function destroy(Post $post)
@@ -74,7 +69,5 @@ class PostsApiController extends Controller
         $post->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
-
 }

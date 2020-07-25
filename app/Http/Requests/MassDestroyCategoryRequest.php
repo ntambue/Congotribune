@@ -14,7 +14,6 @@ class MassDestroyCategoryRequest extends FormRequest
         abort_if(Gate::denies('category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
-
     }
 
     public function rules()
@@ -23,6 +22,5 @@ class MassDestroyCategoryRequest extends FormRequest
             'ids'   => 'required|array',
             'ids.*' => 'exists:categories,id',
         ];
-
     }
 }

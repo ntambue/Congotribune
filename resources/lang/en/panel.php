@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'site_title' => 'Congotribune',
+    'site_title' => 'news',
 ];

@@ -34,7 +34,6 @@ class TagsController extends Controller
         $tag = Tag::create($request->all());
 
         return redirect()->route('admin.tags.index');
-
     }
 
     public function edit(Tag $tag)
@@ -49,7 +48,6 @@ class TagsController extends Controller
         $tag->update($request->all());
 
         return redirect()->route('admin.tags.index');
-
     }
 
     public function show(Tag $tag)
@@ -68,7 +66,6 @@ class TagsController extends Controller
         $tag->delete();
 
         return back();
-
     }
 
     public function massDestroy(MassDestroyTagRequest $request)
@@ -76,6 +73,5 @@ class TagsController extends Controller
         Tag::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
 }

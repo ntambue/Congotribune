@@ -1,11 +1,11 @@
 <?php
 
 return [
-    'userManagement'          => [
+    'userManagement' => [
         'title'          => 'User management',
         'title_singular' => 'User management',
     ],
-    'permission'              => [
+    'permission'     => [
         'title'          => 'Permissions',
         'title_singular' => 'Permission',
         'fields'         => [
@@ -21,7 +21,7 @@ return [
             'deleted_at_helper' => '',
         ],
     ],
-    'role'                    => [
+    'role'           => [
         'title'          => 'Roles',
         'title_singular' => 'Role',
         'fields'         => [
@@ -39,7 +39,7 @@ return [
             'deleted_at_helper'  => '',
         ],
     ],
-    'user'                    => [
+    'user'           => [
         'title'          => 'Users',
         'title_singular' => 'User',
         'fields'         => [
@@ -65,11 +65,7 @@ return [
             'deleted_at_helper'        => '',
         ],
     ],
-    'contentManagementSystem' => [
-        'title'          => 'Content Management System',
-        'title_singular' => 'Content Management System',
-    ],
-    'category'                => [
+    'category'       => [
         'title'          => 'Categories',
         'title_singular' => 'Category',
         'fields'         => [
@@ -77,8 +73,8 @@ return [
             'id_helper'         => '',
             'name'              => 'Name',
             'name_helper'       => '',
-            'slug'              => 'Slug',
-            'slug_helper'       => '',
+            'status'            => 'Status',
+            'status_helper'     => '',
             'created_at'        => 'Created at',
             'created_at_helper' => '',
             'updated_at'        => 'Updated at',
@@ -87,7 +83,7 @@ return [
             'deleted_at_helper' => '',
         ],
     ],
-    'tag'                     => [
+    'tag'            => [
         'title'          => 'Tags',
         'title_singular' => 'Tag',
         'fields'         => [
@@ -103,32 +99,34 @@ return [
             'deleted_at_helper' => '',
         ],
     ],
-    'post'                    => [
+    'post'           => [
         'title'          => 'Posts',
         'title_singular' => 'Post',
         'fields'         => [
-            'id'                => 'ID',
-            'id_helper'         => '',
-            'title'             => 'Title',
-            'title_helper'      => '',
-            'slug'              => 'Slug',
-            'slug_helper'       => '',
-            'categories'        => 'Categories',
-            'categories_helper' => '',
-            'image'             => 'Image',
-            'image_helper'      => '',
-            'content'           => 'Content',
-            'content_helper'    => '',
-            'tags'              => 'Tags',
-            'tags_helper'       => '',
-            'author'            => 'Author',
-            'author_helper'     => '',
-            'created_at'        => 'Created at',
-            'created_at_helper' => '',
-            'updated_at'        => 'Updated at',
-            'updated_at_helper' => '',
-            'deleted_at'        => 'Deleted at',
-            'deleted_at_helper' => '',
+            'id'                       => 'ID',
+            'id_helper'                => '',
+            'title'                    => 'Title',
+            'title_helper'             => '',
+            'short_description'        => 'Short Description',
+            'short_description_helper' => '',
+            'slug'                     => 'Slug',
+            'slug_helper'              => '',
+            'category'                 => 'Category',
+            'category_helper'          => '',
+            'main_image'               => 'Main Image',
+            'main_image_helper'        => '',
+            'content'                  => 'Content',
+            'content_helper'           => '',
+            'tags'                     => 'Tags',
+            'tags_helper'              => '',
+            'created_by'               => 'Created By',
+            'created_by_helper'        => '',
+            'created_at'               => 'Created at',
+            'created_at_helper'        => '',
+            'updated_at'               => 'Updated at',
+            'updated_at_helper'        => '',
+            'deleted_at'               => 'Deleted at',
+            'deleted_at_helper'        => '',
         ],
     ],
 ];

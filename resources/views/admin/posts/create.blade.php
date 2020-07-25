@@ -20,8 +20,18 @@
                 <span class="help-block">{{ trans('cruds.post.fields.title_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="slug">{{ trans('cruds.post.fields.slug') }}</label>
-                <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug', '') }}">
+                <label class="required" for="short_description">{{ trans('cruds.post.fields.short_description') }}</label>
+                <input class="form-control {{ $errors->has('short_description') ? 'is-invalid' : '' }}" type="text" name="short_description" id="short_description" value="{{ old('short_description', '') }}" required>
+                @if($errors->has('short_description'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('short_description') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.post.fields.short_description_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required" for="slug">{{ trans('cruds.post.fields.slug') }}</label>
+                <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug', '') }}" required>
                 @if($errors->has('slug'))
                     <div class="invalid-feedback">
                         {{ $errors->first('slug') }}
@@ -30,29 +40,29 @@
                 <span class="help-block">{{ trans('cruds.post.fields.slug_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="categories_id">{{ trans('cruds.post.fields.categories') }}</label>
-                <select class="form-control select2 {{ $errors->has('categories') ? 'is-invalid' : '' }}" name="categories_id" id="categories_id" required>
-                    @foreach($categories as $id => $categories)
-                        <option value="{{ $id }}" {{ old('categories_id') == $id ? 'selected' : '' }}>{{ $categories }}</option>
+                <label class="required" for="category_id">{{ trans('cruds.post.fields.category') }}</label>
+                <select class="form-control select2 {{ $errors->has('category') ? 'is-invalid' : '' }}" name="category_id" id="category_id" required>
+                    @foreach($categories as $id => $category)
+                        <option value="{{ $id }}" {{ old('category_id') == $id ? 'selected' : '' }}>{{ $category }}</option>
                     @endforeach
                 </select>
-                @if($errors->has('categories'))
+                @if($errors->has('category'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('categories') }}
+                        {{ $errors->first('category') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.post.fields.categories_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.post.fields.category_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="image">{{ trans('cruds.post.fields.image') }}</label>
-                <div class="needsclick dropzone {{ $errors->has('image') ? 'is-invalid' : '' }}" id="image-dropzone">
+                <label for="main_image">{{ trans('cruds.post.fields.main_image') }}</label>
+                <div class="needsclick dropzone {{ $errors->has('main_image') ? 'is-invalid' : '' }}" id="main_image-dropzone">
                 </div>
-                @if($errors->has('image'))
+                @if($errors->has('main_image'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('image') }}
+                        {{ $errors->first('main_image') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.post.fields.image_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.post.fields.main_image_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="content">{{ trans('cruds.post.fields.content') }}</label>
@@ -83,18 +93,18 @@
                 <span class="help-block">{{ trans('cruds.post.fields.tags_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="author_id">{{ trans('cruds.post.fields.author') }}</label>
-                <select class="form-control select2 {{ $errors->has('author') ? 'is-invalid' : '' }}" name="author_id" id="author_id" required>
-                    @foreach($authors as $id => $author)
-                        <option value="{{ $id }}" {{ old('author_id') == $id ? 'selected' : '' }}>{{ $author }}</option>
+                <label for="created_by_id">{{ trans('cruds.post.fields.created_by') }}</label>
+                <select class="form-control select2 {{ $errors->has('created_by') ? 'is-invalid' : '' }}" name="created_by_id" id="created_by_id">
+                    @foreach($created_bies as $id => $created_by)
+                        <option value="{{ $id }}" {{ old('created_by_id') == $id ? 'selected' : '' }}>{{ $created_by }}</option>
                     @endforeach
                 </select>
-                @if($errors->has('author'))
+                @if($errors->has('created_by'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('author') }}
+                        {{ $errors->first('created_by') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.post.fields.author_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.post.fields.created_by_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
@@ -111,9 +121,9 @@
 
 @section('scripts')
 <script>
-    Dropzone.options.imageDropzone = {
+    Dropzone.options.mainImageDropzone = {
     url: '{{ route('admin.posts.storeMedia') }}',
-    maxFilesize: 1, // MB
+    maxFilesize: 2, // MB
     acceptedFiles: '.jpeg,.jpg,.png,.gif',
     maxFiles: 1,
     addRemoveLinks: true,
@@ -121,28 +131,28 @@
       'X-CSRF-TOKEN': "{{ csrf_token() }}"
     },
     params: {
-      size: 1,
+      size: 2,
       width: 4096,
       height: 4096
     },
     success: function (file, response) {
-      $('form').find('input[name="image"]').remove()
-      $('form').append('<input type="hidden" name="image" value="' + response.name + '">')
+      $('form').find('input[name="main_image"]').remove()
+      $('form').append('<input type="hidden" name="main_image" value="' + response.name + '">')
     },
     removedfile: function (file) {
       file.previewElement.remove()
       if (file.status !== 'error') {
-        $('form').find('input[name="image"]').remove()
+        $('form').find('input[name="main_image"]').remove()
         this.options.maxFiles = this.options.maxFiles + 1
       }
     },
     init: function () {
-@if(isset($post) && $post->image)
-      var file = {!! json_encode($post->image) !!}
+@if(isset($post) && $post->main_image)
+      var file = {!! json_encode($post->main_image) !!}
           this.options.addedfile.call(this, file)
-      this.options.thumbnail.call(this, file, '{{ $post->image->getUrl('thumb') }}')
+      this.options.thumbnail.call(this, file, '{{ $post->main_image->getUrl('thumb') }}')
       file.previewElement.classList.add('dz-complete')
-      $('form').append('<input type="hidden" name="image" value="' + file.file_name + '">')
+      $('form').append('<input type="hidden" name="main_image" value="' + file.file_name + '">')
       this.options.maxFiles = this.options.maxFiles - 1
 @endif
     },

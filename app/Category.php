@@ -20,7 +20,7 @@ class Category extends Model
 
     protected $fillable = [
         'name',
-        'slug',
+        'status',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -29,12 +29,10 @@ class Category extends Model
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
-
     }
 
-    public function categoriesPosts()
+    public function categoryPosts()
     {
-        return $this->hasMany(Post::class, 'categories_id', 'id');
-
+        return $this->hasMany(Post::class, 'category_id', 'id');
     }
 }
