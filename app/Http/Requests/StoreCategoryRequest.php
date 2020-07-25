@@ -14,15 +14,20 @@ class StoreCategoryRequest extends FormRequest
         abort_if(Gate::denies('category_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
-
     }
 
     public function rules()
     {
         return [
-            'name' => [
-                'required'],
+            'name'   => [
+                'required',
+            ],
+            'status' => [
+                'required',
+                'integer',
+                'min:-2147483648',
+                'max:2147483647',
+            ],
         ];
-
     }
 }

@@ -11,8 +11,8 @@
             @method('PUT')
             @csrf
             <div class="form-group">
-                <label class="required" for="name">{{ trans('cruds.tag.fields.name') }}</label>
-                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $tag->name) }}" required>
+                <label for="name">{{ trans('cruds.tag.fields.name') }}</label>
+                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $tag->name) }}">
                 @if($errors->has('name'))
                     <div class="invalid-feedback">
                         {{ $errors->first('name') }}

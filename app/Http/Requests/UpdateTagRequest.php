@@ -14,15 +14,10 @@ class UpdateTagRequest extends FormRequest
         abort_if(Gate::denies('tag_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
-
     }
 
     public function rules()
     {
-        return [
-            'name' => [
-                'required'],
-        ];
-
+        return [];
     }
 }

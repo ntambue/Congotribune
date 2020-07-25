@@ -16,6 +16,5 @@ class PostsTest extends DuskTestCase
             $browser->visit(route('admin.posts.index'));
             $browser->assertRouteIs('admin.posts.index');
         });
-
     }
 }

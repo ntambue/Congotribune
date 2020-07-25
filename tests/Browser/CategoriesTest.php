@@ -16,6 +16,5 @@ class CategoriesTest extends DuskTestCase
             $browser->visit(route('admin.categories.index'));
             $browser->assertRouteIs('admin.categories.index');
         });
-
     }
 }

@@ -3,7 +3,7 @@
 @can('post_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.posts.create") }}">
+            <a class="btn btn-success" href="{{ route('admin.posts.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.post.title_singular') }}
             </a>
         </div>
@@ -29,23 +29,70 @@
                             {{ trans('cruds.post.fields.title') }}
                         </th>
                         <th>
+                            {{ trans('cruds.post.fields.short_description') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.post.fields.slug') }}
                         </th>
                         <th>
-                            {{ trans('cruds.post.fields.categories') }}
+                            {{ trans('cruds.post.fields.category') }}
                         </th>
                         <th>
-                            {{ trans('cruds.post.fields.image') }}
+                            {{ trans('cruds.post.fields.main_image') }}
                         </th>
                         <th>
                             {{ trans('cruds.post.fields.tags') }}
                         </th>
                         <th>
-                            {{ trans('cruds.post.fields.author') }}
+                            {{ trans('cruds.post.fields.created_by') }}
                         </th>
                         <th>
                             &nbsp;
                         </th>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <select class="search">
+                                <option value>{{ trans('global.all') }}</option>
+                                @foreach($categories as $key => $item)
+                                    <option value="{{ $item }}">{{ $item }}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <select class="search">
+                                <option value>{{ trans('global.all') }}</option>
+                                @foreach($tags as $key => $item)
+                                    <option value="{{ $item }}">{{ $item }}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                            <select class="search">
+                                <option value>{{ trans('global.all') }}</option>
+                                @foreach($users as $key => $item)
+                                    <option value="{{ $item }}">{{ $item }}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                        </td>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,15 +108,18 @@
                                 {{ $post->title ?? '' }}
                             </td>
                             <td>
+                                {{ $post->short_description ?? '' }}
+                            </td>
+                            <td>
                                 {{ $post->slug ?? '' }}
                             </td>
                             <td>
-                                {{ $post->categories->name ?? '' }}
+                                {{ $post->category->name ?? '' }}
                             </td>
                             <td>
-                                @if($post->image)
-                                    <a href="{{ $post->image->getUrl() }}" target="_blank">
-                                        <img src="{{ $post->image->getUrl('thumb') }}" width="50px" height="50px">
+                                @if($post->main_image)
+                                    <a href="{{ $post->main_image->getUrl() }}" target="_blank">
+                                        <img src="{{ $post->main_image->getUrl('thumb') }}" width="50px" height="50px">
                                     </a>
                                 @endif
                             </td>
@@ -79,7 +129,7 @@
                                 @endforeach
                             </td>
                             <td>
-                                {{ $post->author->name ?? '' }}
+                                {{ $post->created_by->name ?? '' }}
                             </td>
                             <td>
                                 @can('post_show')
@@ -151,14 +201,23 @@
 @endcan
 
   $.extend(true, $.fn.dataTable.defaults, {
+    orderCellsTop: true,
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  $('.datatable-Post:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
-        $($.fn.dataTable.tables(true)).DataTable()
-            .columns.adjust();
-    });
+  let table = $('.datatable-Post:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+      $($.fn.dataTable.tables(true)).DataTable()
+          .columns.adjust();
+  });
+  $('.datatable thead').on('input', '.search', function () {
+      let strict = $(this).attr('strict') || false
+      let value = strict && this.value ? "^" + this.value + "$" : this.value
+      table
+        .column($(this).parent().index())
+        .search(value, strict)
+        .draw()
+  });
 })
 
 </script>

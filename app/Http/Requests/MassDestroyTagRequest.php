@@ -14,7 +14,6 @@ class MassDestroyTagRequest extends FormRequest
         abort_if(Gate::denies('tag_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
-
     }
 
     public function rules()
@@ -23,6 +22,5 @@ class MassDestroyTagRequest extends FormRequest
             'ids'   => 'required|array',
             'ids.*' => 'exists:tags,id',
         ];
-
     }
 }

@@ -74,14 +74,14 @@
     </div>
     <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
         <li class="nav-item">
-            <a class="nav-link" href="#author_posts" role="tab" data-toggle="tab">
+            <a class="nav-link" href="#created_by_posts" role="tab" data-toggle="tab">
                 {{ trans('cruds.post.title') }}
             </a>
         </li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane" role="tabpanel" id="author_posts">
-            @includeIf('admin.users.relationships.authorPosts', ['posts' => $user->authorPosts])
+        <div class="tab-pane" role="tabpanel" id="created_by_posts">
+            @includeIf('admin.users.relationships.createdByPosts', ['posts' => $user->createdByPosts])
         </div>
     </div>
 </div>

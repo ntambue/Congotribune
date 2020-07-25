@@ -28,12 +28,10 @@ class Tag extends Model
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
-
     }
 
     public function tagsPosts()
     {
         return $this->belongsToMany(Post::class);
-
     }
 }

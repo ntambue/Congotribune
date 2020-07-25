@@ -16,7 +16,7 @@ class Post extends Model implements HasMedia
     public $table = 'posts';
 
     protected $appends = [
-        'image',
+        'main_image',
     ];
 
     protected $dates = [
@@ -27,10 +27,11 @@ class Post extends Model implements HasMedia
 
     protected $fillable = [
         'title',
+        'short_description',
         'slug',
-        'categories_id',
+        'category_id',
         'content',
-        'author_id',
+        'created_by_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -39,24 +40,21 @@ class Post extends Model implements HasMedia
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
-
     }
 
     public function registerMediaConversions(Media $media = null)
     {
         $this->addMediaConversion('thumb')->width(50)->height(50);
-
     }
 
-    public function categories()
+    public function category()
     {
-        return $this->belongsTo(Category::class, 'categories_id');
-
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
-    public function getImageAttribute()
+    public function getMainImageAttribute()
     {
-        $file = $this->getMedia('image')->last();
+        $file = $this->getMedia('main_image')->last();
 
         if ($file) {
             $file->url       = $file->getUrl();
@@ -64,19 +62,15 @@ class Post extends Model implements HasMedia
         }
 
         return $file;
-
     }
 
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
-
     }
 
-    public function author()
+    public function created_by()
     {
-        return $this->belongsTo(User::class, 'author_id');
-
+        return $this->belongsTo(User::class, 'created_by_id');
     }
-
 }

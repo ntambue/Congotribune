@@ -32,7 +32,6 @@ trait MediaUploadingTrait
             if (!file_exists($path)) {
                 mkdir($path, 0755, true);
             }
-
         } catch (\Exception $e) {
         }
 
@@ -46,7 +45,5 @@ trait MediaUploadingTrait
             'name'          => $name,
             'original_name' => $file->getClientOriginalName(),
         ]);
-
     }
-
 }

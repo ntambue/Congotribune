@@ -33,10 +33,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.category.fields.slug') }}
+                            {{ trans('cruds.category.fields.status') }}
                         </th>
                         <td>
-                            {{ $category->slug }}
+                            {{ $category->status }}
                         </td>
                     </tr>
                 </tbody>
@@ -56,14 +56,14 @@
     </div>
     <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
         <li class="nav-item">
-            <a class="nav-link" href="#categories_posts" role="tab" data-toggle="tab">
+            <a class="nav-link" href="#category_posts" role="tab" data-toggle="tab">
                 {{ trans('cruds.post.title') }}
             </a>
         </li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane" role="tabpanel" id="categories_posts">
-            @includeIf('admin.categories.relationships.categoriesPosts', ['posts' => $category->categoriesPosts])
+        <div class="tab-pane" role="tabpanel" id="category_posts">
+            @includeIf('admin.categories.relationships.categoryPosts', ['posts' => $category->categoryPosts])
         </div>
     </div>
 </div>

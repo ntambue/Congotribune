@@ -26,7 +26,13 @@ class PostsController extends Controller
 
         $posts = Post::all();
 
-        return view('admin.posts.index', compact('posts'));
+        $categories = Category::get()->pluck('name')->toArray();
+
+        $tags = Tag::get()->pluck('name')->toArray();
+
+        $users = User::get()->pluck('name')->toArray();
+
+        return view('admin.posts.index', compact('posts', 'categories', 'tags', 'users'));
     }
 
     public function create()
@@ -37,9 +43,9 @@ class PostsController extends Controller
 
         $tags = Tag::all()->pluck('name', 'id');
 
-        $authors = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $created_bies = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.posts.create', compact('categories', 'tags', 'authors'));
+        return view('admin.posts.create', compact('categories', 'tags', 'created_bies'));
     }
 
     public function store(StorePostRequest $request)
@@ -47,8 +53,8 @@ class PostsController extends Controller
         $post = Post::create($request->all());
         $post->tags()->sync($request->input('tags', []));
 
-        if ($request->input('image', false)) {
-            $post->addMedia(storage_path('tmp/uploads/' . $request->input('image')))->toMediaCollection('image');
+        if ($request->input('main_image', false)) {
+            $post->addMedia(storage_path('tmp/uploads/' . $request->input('main_image')))->toMediaCollection('main_image');
         }
 
         if ($media = $request->input('ck-media', false)) {
@@ -56,7 +62,6 @@ class PostsController extends Controller
         }
 
         return redirect()->route('admin.posts.index');
-
     }
 
     public function edit(Post $post)
@@ -67,11 +72,11 @@ class PostsController extends Controller
 
         $tags = Tag::all()->pluck('name', 'id');
 
-        $authors = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $created_bies = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $post->load('categories', 'tags', 'author');
+        $post->load('category', 'tags', 'created_by');
 
-        return view('admin.posts.edit', compact('categories', 'tags', 'authors', 'post'));
+        return view('admin.posts.edit', compact('categories', 'tags', 'created_bies', 'post'));
     }
 
     public function update(UpdatePostRequest $request, Post $post)
@@ -79,24 +84,22 @@ class PostsController extends Controller
         $post->update($request->all());
         $post->tags()->sync($request->input('tags', []));
 
-        if ($request->input('image', false)) {
-            if (!$post->image || $request->input('image') !== $post->image->file_name) {
-                $post->addMedia(storage_path('tmp/uploads/' . $request->input('image')))->toMediaCollection('image');
+        if ($request->input('main_image', false)) {
+            if (!$post->main_image || $request->input('main_image') !== $post->main_image->file_name) {
+                $post->addMedia(storage_path('tmp/uploads/' . $request->input('main_image')))->toMediaCollection('main_image');
             }
-
-        } elseif ($post->image) {
-            $post->image->delete();
+        } elseif ($post->main_image) {
+            $post->main_image->delete();
         }
 
         return redirect()->route('admin.posts.index');
-
     }
 
     public function show(Post $post)
     {
         abort_if(Gate::denies('post_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $post->load('categories', 'tags', 'author');
+        $post->load('category', 'tags', 'created_by');
 
         return view('admin.posts.show', compact('post'));
     }
@@ -108,7 +111,6 @@ class PostsController extends Controller
         $post->delete();
 
         return back();
-
     }
 
     public function massDestroy(MassDestroyPostRequest $request)
@@ -116,7 +118,6 @@ class PostsController extends Controller
         Post::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
 
     public function storeCKEditorImages(Request $request)
@@ -129,7 +130,5 @@ class PostsController extends Controller
         $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
 
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
-
     }
-
 }

@@ -74,75 +74,70 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => '17',
-                'title' => 'content_management_system_access',
-            ],
-            [
-                'id'    => '18',
                 'title' => 'category_create',
             ],
             [
-                'id'    => '19',
+                'id'    => '18',
                 'title' => 'category_edit',
             ],
             [
-                'id'    => '20',
+                'id'    => '19',
                 'title' => 'category_show',
             ],
             [
-                'id'    => '21',
+                'id'    => '20',
                 'title' => 'category_delete',
             ],
             [
-                'id'    => '22',
+                'id'    => '21',
                 'title' => 'category_access',
             ],
             [
-                'id'    => '23',
+                'id'    => '22',
                 'title' => 'tag_create',
             ],
             [
-                'id'    => '24',
+                'id'    => '23',
                 'title' => 'tag_edit',
             ],
             [
-                'id'    => '25',
+                'id'    => '24',
                 'title' => 'tag_show',
             ],
             [
-                'id'    => '26',
+                'id'    => '25',
                 'title' => 'tag_delete',
             ],
             [
-                'id'    => '27',
+                'id'    => '26',
                 'title' => 'tag_access',
             ],
             [
-                'id'    => '28',
+                'id'    => '27',
                 'title' => 'post_create',
             ],
             [
-                'id'    => '29',
+                'id'    => '28',
                 'title' => 'post_edit',
             ],
             [
-                'id'    => '30',
+                'id'    => '29',
                 'title' => 'post_show',
             ],
             [
-                'id'    => '31',
+                'id'    => '30',
                 'title' => 'post_delete',
             ],
             [
-                'id'    => '32',
+                'id'    => '31',
                 'title' => 'post_access',
             ],
             [
-                'id'    => '33',
+                'id'    => '32',
                 'title' => 'profile_password_edit',
             ],
         ];
 
         Permission::insert($permissions);
-
     }
 }

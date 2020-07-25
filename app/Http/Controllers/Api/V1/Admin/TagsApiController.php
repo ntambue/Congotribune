@@ -18,7 +18,6 @@ class TagsApiController extends Controller
         abort_if(Gate::denies('tag_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new TagResource(Tag::all());
-
     }
 
     public function store(StoreTagRequest $request)
@@ -28,7 +27,6 @@ class TagsApiController extends Controller
         return (new TagResource($tag))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
-
     }
 
     public function show(Tag $tag)
@@ -36,7 +34,6 @@ class TagsApiController extends Controller
         abort_if(Gate::denies('tag_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new TagResource($tag);
-
     }
 
     public function update(UpdateTagRequest $request, Tag $tag)
@@ -46,7 +43,6 @@ class TagsApiController extends Controller
         return (new TagResource($tag))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
-
     }
 
     public function destroy(Tag $tag)
@@ -56,6 +52,5 @@ class TagsApiController extends Controller
         $tag->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
 }

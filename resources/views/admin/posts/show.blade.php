@@ -33,6 +33,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.post.fields.short_description') }}
+                        </th>
+                        <td>
+                            {{ $post->short_description }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.post.fields.slug') }}
                         </th>
                         <td>
@@ -41,20 +49,20 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.post.fields.categories') }}
+                            {{ trans('cruds.post.fields.category') }}
                         </th>
                         <td>
-                            {{ $post->categories->name ?? '' }}
+                            {{ $post->category->name ?? '' }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.post.fields.image') }}
+                            {{ trans('cruds.post.fields.main_image') }}
                         </th>
                         <td>
-                            @if($post->image)
-                                <a href="{{ $post->image->getUrl() }}" target="_blank">
-                                    <img src="{{ $post->image->getUrl('thumb') }}" width="50px" height="50px">
+                            @if($post->main_image)
+                                <a href="{{ $post->main_image->getUrl() }}" target="_blank">
+                                    <img src="{{ $post->main_image->getUrl('thumb') }}" width="50px" height="50px">
                                 </a>
                             @endif
                         </td>
@@ -79,10 +87,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.post.fields.author') }}
+                            {{ trans('cruds.post.fields.created_by') }}
                         </th>
                         <td>
-                            {{ $post->author->name ?? '' }}
+                            {{ $post->created_by->name ?? '' }}
                         </td>
                     </tr>
                 </tbody>
